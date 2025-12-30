@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 // Coloque sua chave aqui como variável de ambiente
-const GOOGLE_KEY = process.env.AIzaSyAKvYwUQv4dzKSbFSQ33xKfSYtYAv11d6Q;
+const GOOGLE_KEY = process.env.GOOGLE_KEY;
 
 app.post("/api/chat", async (req, res) => {
   const { messages } = req.body;
