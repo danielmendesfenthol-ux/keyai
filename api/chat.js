@@ -4,6 +4,10 @@ export default async function handler(req, res) {
   }
 
   const GOOGLE_KEY = process.env.GOOGLE_KEY;
+  if (!GOOGLE_KEY) {
+    return res.status(500).json({ error: "GOOGLE_KEY não configurado" });
+  }
+
   const { messages = [] } = req.body;
   const userText = messages[messages.length - 1]?.content || "Olá!";
 
@@ -20,8 +24,8 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sem resposta.";
-    res.status(200).json({ reply });
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "Sem resposta.";
+    res.status(200).json({ reply, raw: data });
   } catch (err) {
     res.status(500).json({ error: "Erro interno", detail: String(err) });
   }
